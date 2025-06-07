@@ -6,6 +6,10 @@ interface ObjectTypeProps {
 }
 export const ObjectList = ({ value, onChange }: ObjectTypeProps) => {
   const onClick = (objectType: string) => {
+    if (objectType === "All") {
+      onChange([]);
+      return;
+    }
     if (value?.includes(objectType)) {
       onChange(value?.filter((t) => t !== objectType) || []);
     } else {
@@ -16,7 +20,7 @@ export const ObjectList = ({ value, onChange }: ObjectTypeProps) => {
     <div className="bg-gray-600 flex flex-row items-center rounded-full justify-center">
       <Button
         variant="ghost"
-        onClick={() => onClick("")}
+        onClick={() => onClick("All")}
         className="text-white hover:text-white text-lg font-semibold hover:border hover:bg-transparent rounded-full hover:border-blue-400"
       >
         All objects (27893)
@@ -26,7 +30,7 @@ export const ObjectList = ({ value, onChange }: ObjectTypeProps) => {
         onClick={() => onClick("PAYLOAD")}
         className="text-white hover:text-white text-lg hover:border hover:bg-transparent rounded-full hover:border-blue-400"
       >
-        Palyload (13997)
+        Payload (13997)
       </Button>
       <Button
         variant="ghost"

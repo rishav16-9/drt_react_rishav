@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { DEFAULT_LIMIT } from "@/constants";
 import { createTRPCRouter, baseProcedure } from "@/trpc/init";
 import { z } from "zod";
@@ -18,12 +19,29 @@ export const spaceRouter = createTRPCRouter({
       if (cursor) url.searchParams.set("offset", cursor.toString());
 
       const res = await fetch(url.toString());
-      const data = await res.json();
 
-      // NOTE: Update the return type according to actual API structure
+      // Parse JSON safely
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to parse response from external service.",
+        });
+      }
+
+      // Check for response errors
+      if (!res.ok || res.status === 400) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: data?.message || "Failed to fetch satellite data.",
+        });
+      }
+
       return {
-        items: data.data || [], // assuming API returns data under `data`
-        nextCursor: cursor != null ? cursor + limit : limit, // simple pagination logic
+        items: data.data || [],
+        nextCursor: cursor != null ? cursor + limit : limit,
       };
     }),
 });
