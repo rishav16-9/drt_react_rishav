@@ -59,7 +59,7 @@ export const MobileFilterDrawer = ({
         </ScrollArea>
 
         <DialogClose asChild>
-          <Button className="mt-4 w-full">Apply Filters</Button>
+          <Button className="mt-4 w-full">Close</Button>
         </DialogClose>
       </DialogContent>
     </Dialog>
