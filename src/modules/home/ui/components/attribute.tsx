@@ -52,7 +52,6 @@ export const Attribute = ({ onChange, value }: AttributeProps) => {
             onClick={() => onClick(key)}
             className={cn(
               "text-black text-sm md:text-base font-semibold hover:border hover:bg-transparent m-2 rounded-full hover:border-blue-400 px-1 py-1 md:px-4 md:py-2 whitespace-nowrap",
-
               value?.includes(key) && "border-blue-400"
             )}
           >

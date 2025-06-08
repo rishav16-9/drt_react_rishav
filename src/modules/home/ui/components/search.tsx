@@ -22,7 +22,7 @@ export const Search = ({ value, onQuery }: SearchProps) => {
           className=" border border-white rounded-full p-2 px-5 w-full text-white placeholder:text-white/70"
           placeholder="Search name and noradcatid"
         />
-        {value && (
+        {inputValue && (
           <Button
             size="icon"
             type="button"

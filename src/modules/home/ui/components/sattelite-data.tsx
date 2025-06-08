@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { FixedSizeList as List } from "react-window";
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/tooltip";
 
 const headers = [
-  { key: "slect", value: "Select" },
+  { key: "select", value: "Select" },
   { key: "name", value: "Name" },
   { key: "noradCatId", value: "NoradCatId" },
   { key: "orbitCode", value: "Orbit Code" },
@@ -104,7 +104,7 @@ export const SatteliteData = () => {
   const [filters] = useFilters();
   const listRef = useRef<List>(null);
 
-  const { data } = useSuspenseInfiniteQuery(
+  const { data, error, isLoading, isError } = useSuspenseInfiniteQuery(
     trpc.space.getMany.infiniteQueryOptions(
       {
         limit: DEFAULT_LIMIT,
@@ -123,6 +123,26 @@ export const SatteliteData = () => {
     () => data.pages.flatMap((page) => page.items),
     [data.pages]
   );
+
+  useEffect(() => {
+    if (isError && error) {
+      toast.error("Failed to load satellite data", {
+        description: error.message,
+        duration: 5000,
+      });
+    }
+  }, [isError, error]);
+
+  if (isLoading) return <SatelliteDataSkeleton />;
+
+  if (isError) {
+    return (
+      <div className="border border-red-500 rounded-md p-4 bg-red-100 text-red-800">
+        <p className="font-bold">Error loading satellite data</p>
+        <p>{error?.message}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="border border-gray-700 rounded-md">

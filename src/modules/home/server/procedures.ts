@@ -61,16 +61,11 @@ export const spaceRouter = createTRPCRouter({
         const selectedCodes = objectCodes.map((c) => c.toUpperCase());
 
         filteredItems = filteredItems.filter((item) => {
-          // Step 1: Check orbitCode exists
           if (!item.orbitCode) return false;
-
-          // Step 2: Remove curly braces, split by comma
           const itemCodes = item.orbitCode
             .replace(/[{}]/g, "") // Remove { and }
             .split(",") // Split into array
             .map((code) => code.trim().toUpperCase()); // Clean spaces and normalize case
-
-          // Step 3: Return true if any code matches selected filters
           return itemCodes.some((code) => selectedCodes.includes(code));
         });
       }

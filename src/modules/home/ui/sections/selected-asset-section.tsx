@@ -53,8 +53,8 @@ export const SelectedAssetSection = () => {
         asChild
         variant="ghost"
         className={cn(
-          "bg-gray-800 d text-white hover:text-black ",
-          data.length === 0 && "text-white-700 cursor-not-allowed bg-gray-400"
+          "bg-gray-800 text-white hover:text-black ",
+          data.length === 0 && "text-white/70 cursor-not-allowed bg-gray-400"
         )}
         disabled={data.length === 0}
       >
@@ -90,9 +90,7 @@ export const SelectedAssetSectionSkeleton = () => {
             key={index}
             className="flex items-center justify-between gap-6 px-3 hover:bg-gray-800 rounded-lg "
           >
-            <p className="text-white">
-              <Skeleton className="w-50 h-4" />
-            </p>
+            <Skeleton className="w-50 h-4" />
             <Button
               size="icon"
               variant="ghost"

@@ -37,7 +37,7 @@ export const ObjectList = ({ value, onChange }: ObjectTypeProps) => {
             variant="ghost"
             onClick={() => onClick(type)}
             className={cn(
-              "text-white hover:text-white text-sm md:text-base font-semibold border border-transparent hover: hover:bg-transparent rounded-full hover:border-blue-400 px- py-1 md:px-4 md:py-2 whitespace-nowrap",
+              "text-white hover:text-white text-sm md:text-base font-semibold border border-transparent hover: hover:bg-transparent rounded-full hover:border-blue-400 px-2 py-1 md:px-4 md:py-2 whitespace-nowrap",
               ((type === "All" && (!value || value.length === 0)) ||
                 value?.includes(type)) &&
                 "border-blue-400"
