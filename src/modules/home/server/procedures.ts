@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { DEFAULT_LIMIT } from "@/constants";
 import { createTRPCRouter, baseProcedure } from "@/trpc/init";
 import { z } from "zod";
+import { Satellite } from "../types";
 
 export const spaceRouter = createTRPCRouter({
   getMany: baseProcedure
@@ -9,15 +10,25 @@ export const spaceRouter = createTRPCRouter({
       z.object({
         cursor: z.number().optional(),
         limit: z.number().default(DEFAULT_LIMIT),
+        objectTypes: z.array(z.string()).optional(),
+        attributes: z.array(z.string()).optional(),
+        objectCodes: z.array(z.string()).optional(),
+        search: z.string().optional(),
       })
     )
     .query(async ({ input }) => {
-      const { limit, cursor } = input;
-
+      const { limit, cursor, objectTypes, attributes, search, objectCodes } =
+        input;
       const url = new URL("https://backend.digantara.dev/v1/satellites");
-      url.searchParams.set("limit", limit.toString());
+      // url.searchParams.set("limit", limit.toString());
       if (cursor) url.searchParams.set("offset", cursor.toString());
+      if (objectTypes?.length) {
+        url.searchParams.set("objectTypes", objectTypes.join(","));
+      }
 
+      if (attributes?.length) {
+        url.searchParams.set("attributes", attributes.join(","));
+      }
       const res = await fetch(url.toString());
 
       // Parse JSON safely
@@ -38,9 +49,29 @@ export const spaceRouter = createTRPCRouter({
           message: data?.message || "Failed to fetch satellite data.",
         });
       }
+      let filteredItems = data.data as Satellite[];
+      if (search) {
+        filteredItems = filteredItems.filter(
+          (item) =>
+            item.name?.toLowerCase().includes(search.toLowerCase()) ||
+            item.noradCatId?.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+      if (objectCodes?.length) {
+        const selectedCodes = objectCodes.map((c) => c.toUpperCase());
+
+        filteredItems = filteredItems.filter((item) => {
+          if (!item.orbitCode) return false;
+          const itemCodes = item.orbitCode
+            .replace(/[{}]/g, "") // Remove { and }
+            .split(",") // Split into array
+            .map((code) => code.trim().toUpperCase()); // Clean spaces and normalize case
+          return itemCodes.some((code) => selectedCodes.includes(code));
+        });
+      }
 
       return {
-        items: data.data || [],
+        items: filteredItems,
         nextCursor: cursor != null ? cursor + limit : limit,
       };
     }),
