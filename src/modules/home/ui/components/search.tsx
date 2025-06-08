@@ -31,7 +31,7 @@ export const Search = ({ value, onQuery }: SearchProps) => {
               setInputValue("");
               onQuery("");
             }}
-            className="absolute text-white right-3 cursor-pinter"
+            className="absolute text-white right-3 cursor-pointer"
           >
             <XIcon />
           </Button>

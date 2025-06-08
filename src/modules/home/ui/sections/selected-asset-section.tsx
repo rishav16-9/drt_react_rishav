@@ -29,7 +29,7 @@ export const SelectedAssetSection = () => {
           </div>
         </Button>
       </div>
-      <div className="border h-full max-h-[530px] w-full rounded-lg border-gray-700">
+      <div className="border h-full max-h-[530px] w-full rounded-lg border-gray-700 overflow-y-auto">
         {data.map((ele) => (
           <div
             key={ele.noradCatId}
