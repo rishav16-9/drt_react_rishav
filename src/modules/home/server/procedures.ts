@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { DEFAULT_LIMIT } from "@/constants";
+import { BASE_API_URL, DEFAULT_LIMIT } from "@/constants";
 import { createTRPCRouter, baseProcedure } from "@/trpc/init";
 import { z } from "zod";
 import { Satellite } from "../types";
@@ -19,7 +19,7 @@ export const spaceRouter = createTRPCRouter({
     .query(async ({ input }) => {
       const { limit, cursor, objectTypes, attributes, search, objectCodes } =
         input;
-      const url = new URL("https://backend.digantara.dev/v1/satellites");
+      const url = new URL(BASE_API_URL);
       // url.searchParams.set("limit", limit.toString());
       if (cursor) url.searchParams.set("offset", cursor.toString());
       if (objectTypes?.length) {
