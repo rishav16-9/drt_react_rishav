@@ -46,9 +46,10 @@ export const ObjectList = ({ value, onChange }: ObjectTypeProps) => {
           </Button>
         ))}
       </div>
-      <div>
-        <p className="px-2 font-bold">Object types</p>
-        <div className="bg-gray-100 rounded-md p-2 sm:flex lg:hidden flex-wrap gap-2 ">
+
+      <div className=" p-2 sm:flex lg:hidden flex-wrap gap-2 ">
+        <p className="p-2 font-bold">Object types</p>
+        <div className="bg-gray-100 rounded-md">
           {objectTypes.map(({ type, label, count }) => (
             <Button
               key={type}
