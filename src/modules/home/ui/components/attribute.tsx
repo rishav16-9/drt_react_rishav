@@ -43,21 +43,23 @@ export const Attribute = ({ onChange, value }: AttributeProps) => {
           </Button>
         ))}
       </div>
-      <div className="bg-gray-100 rounded-md p-2 sm:flex lg:hidden flex-wrap gap-2 ">
+      <div>
         <p className="px-2 font-bold">Object list</p>
-        {attributeOptions.map(({ key, label }) => (
-          <Button
-            key={key}
-            variant="secondary"
-            onClick={() => onClick(key)}
-            className={cn(
-              "text-black text-sm md:text-base font-semibold hover:border hover:bg-transparent m-2 rounded-full hover:border-blue-400 px-1 py-1 md:px-4 md:py-2 whitespace-nowrap",
-              value?.includes(key) && "border-blue-400"
-            )}
-          >
-            {label}
-          </Button>
-        ))}
+        <div className="bg-gray-100 rounded-md p-2 sm:flex lg:hidden flex-wrap gap-2 ">
+          {attributeOptions.map(({ key, label }) => (
+            <Button
+              key={key}
+              variant="secondary"
+              onClick={() => onClick(key)}
+              className={cn(
+                "text-black text-sm md:text-base font-semibold hover:border hover:bg-transparent m-2 rounded-full hover:border-blue-400 px-1 py-1 md:px-4 md:py-2 whitespace-nowrap",
+                value?.includes(key) && "border-blue-400"
+              )}
+            >
+              {label}
+            </Button>
+          ))}
+        </div>
       </div>
     </>
   );

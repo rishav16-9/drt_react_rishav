@@ -15,7 +15,6 @@ const objectTypes = [
 ];
 
 export const ObjectList = ({ value, onChange }: ObjectTypeProps) => {
-  console.log(value);
   const onClick = (objectType: string) => {
     if (objectType === "All") {
       onChange([]);
@@ -47,23 +46,25 @@ export const ObjectList = ({ value, onChange }: ObjectTypeProps) => {
           </Button>
         ))}
       </div>
-      <div className="bg-gray-100 rounded-md p-2 sm:flex lg:hidden flex-wrap gap-2 ">
+      <div>
         <p className="px-2 font-bold">Object types</p>
-        {objectTypes.map(({ type, label, count }) => (
-          <Button
-            key={type}
-            variant="secondary"
-            onClick={() => onClick(type)}
-            className={cn(
-              "text-black text-sm md:text-base font-semibold hover:border hover:bg-transparent m-2 rounded-full hover:border-blue-400 px-1 py-1 md:px-4 md:py-2 whitespace-nowrap",
-              ((type === "All" && (!value || value.length === 0)) ||
-                value?.includes(type)) &&
-                "border-blue-400"
-            )}
-          >
-            {label} ({count.toLocaleString()})
-          </Button>
-        ))}
+        <div className="bg-gray-100 rounded-md p-2 sm:flex lg:hidden flex-wrap gap-2 ">
+          {objectTypes.map(({ type, label, count }) => (
+            <Button
+              key={type}
+              variant="secondary"
+              onClick={() => onClick(type)}
+              className={cn(
+                "text-black text-sm md:text-base font-semibold hover:border hover:bg-transparent m-2 rounded-full hover:border-blue-400 px-1 py-1 md:px-4 md:py-2 whitespace-nowrap",
+                ((type === "All" && (!value || value.length === 0)) ||
+                  value?.includes(type)) &&
+                  "border-blue-400"
+              )}
+            >
+              {label} ({count.toLocaleString()})
+            </Button>
+          ))}
+        </div>
       </div>
     </>
   );
